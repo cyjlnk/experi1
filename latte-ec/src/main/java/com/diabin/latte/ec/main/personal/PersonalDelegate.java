@@ -16,6 +16,7 @@ import com.diabin.latte.ec.main.personal.list.ListAdapter;
 import com.diabin.latte.ec.main.personal.list.ListBean;
 import com.diabin.latte.ec.main.personal.list.ListItemType;
 import com.diabin.latte.ec.main.personal.order.OrderListDelegate;
+import com.diabin.latte.ec.main.personal.profile.UserProfileDelegate;
 
 
 import java.util.ArrayList;
@@ -42,6 +43,10 @@ public class PersonalDelegate extends BottomItemDelegate {
     void onCliokAllOrder(){
         mArgs.putString(ORDER_TYPE, "all");
         startOrderListByType();
+    }
+    @OnClick(R2.id.img_user_avatar)
+    void onCliokAvater(){
+        getParentDelegate().start(new UserProfileDelegate());
     }
 
     @Override

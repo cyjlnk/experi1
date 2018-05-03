@@ -25,6 +25,8 @@ public class ListAdapter extends BaseMultiItemQuickAdapter<ListBean, BaseViewHol
     public ListAdapter(List<ListBean> data) {
         super(data);
         addItemType(ListItemType.ITEM_NORMAL, R.layout.arrow_item_layout);
+        addItemType(ListItemType.ITEM_AVATAR, R.layout.arrow_item_avatar);
+
     }
 
     @Override
@@ -33,6 +35,11 @@ public class ListAdapter extends BaseMultiItemQuickAdapter<ListBean, BaseViewHol
             case ListItemType.ITEM_NORMAL:
                 helper.setText(R.id.tv_arrow_text, item.getText());
                 helper.setText(R.id.tv_arrow_value, item.getValue());
+                break;
+            case ListItemType.ITEM_AVATAR:
+                Glide.with(mContext)
+                        .load(item.getImageUrl())
+                        .into((ImageView) helper.getView(R.id.img_arrow_avatar));
                 break;
             default:
                 break;
