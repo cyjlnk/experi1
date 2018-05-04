@@ -1,11 +1,15 @@
 package com.diabin.latte.ec.detail;
 
+import android.content.Context;
+import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.TabLayout;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -92,7 +96,25 @@ public class GoodsDetailDelegate extends LatteDelegate implements   AppBarLayout
         mCollapsingToolbarLayout.setContentScrimColor(Color.WHITE);
         mAppBar.addOnOffsetChangedListener( this);
         initData();
+        initTabLayout();
 
+    }
+
+    private void initPager(JSONObject data) {
+        final PagerAdapter adapter = new TabPagerAdapter(getFragmentManager(), data);
+        mViewPager.setAdapter(adapter);
+    }
+
+    private void initTabLayout() {
+        mTabLayout.setTabMode(TabLayout.MODE_FIXED);
+        final Context context = getContext();
+        if (context != null) {
+            mTabLayout.setSelectedTabIndicatorColor
+                    (ContextCompat.getColor(context, R.color.app_main));
+        }
+        mTabLayout.setTabTextColors(ColorStateList.valueOf(Color.BLACK));
+        mTabLayout.setBackgroundColor(Color.WHITE);
+        mTabLayout.setupWithViewPager(mViewPager);
     }
 
     private void initData() {
@@ -106,13 +128,18 @@ public class GoodsDetailDelegate extends LatteDelegate implements   AppBarLayout
                         final JSONObject data =
                                 JSON.parseObject(response).getJSONObject("data");
                         initBanner(data);
-//                        initGoodsInfo(data);
-//                        initPager(data);
+                        initGoodsInfo(data);
+                        initPager(data);
 //                        setShopCartCount(data);
                     }
                 })
                 .build()
                 .get();
+    }
+
+    private void initGoodsInfo(JSONObject data) {
+        final String goodsData = data.toJSONString();
+        loadRootFragment(R.id.frame_goods_info, GoodsInfoDelegate.create(goodsData));
     }
 
     private void initBanner(JSONObject data) {
