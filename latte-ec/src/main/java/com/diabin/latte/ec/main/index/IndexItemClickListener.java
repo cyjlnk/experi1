@@ -8,6 +8,8 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.SimpleClickListener;
 import com.diabin.latte.delegates.LatteDelegate;
 import com.diabin.latte.ec.detail.GoodsDetailDelegate;
+import com.diabin.latte.ui.recycler.MultipleFields;
+import com.diabin.latte.ui.recycler.MultipleItemEntity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,12 +32,9 @@ public class IndexItemClickListener extends SimpleClickListener {
 
     @Override
     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-     /*   final Intent intent =new Intent(DELEGATE.,GoodsDetailDelegate.class);
-        final ArrayList<String> list1 =new ArrayList<>();
-        list1.addAll(adapter.getData());
-        intent.putStringArrayListExtra("",list1);
-        intent .*/
-        final GoodsDetailDelegate delegate =GoodsDetailDelegate.create();
+        final MultipleItemEntity entity = (MultipleItemEntity) baseQuickAdapter.getData().get(position);
+        final int goodsId = entity.getField(MultipleFields.ID);
+        final GoodsDetailDelegate delegate = GoodsDetailDelegate.create(goodsId);
         DELEGATE.start(delegate);
     }
 
