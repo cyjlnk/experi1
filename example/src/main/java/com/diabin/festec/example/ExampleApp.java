@@ -9,6 +9,8 @@ import com.diabin.latte.net.interceptors.DebugInterceptor;
 import com.facebook.stetho.Stetho;
 import com.joanzapata.iconify.fonts.FontAwesomeModule;
 
+import io.vov.vitamio.Vitamio;
+
 /**
  * Created by fei on 2017/7/30.
  */
@@ -18,11 +20,14 @@ public class ExampleApp extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        //注册Vitamio
+        Vitamio.isInitialized(this);
+
         Latte.init(this)
                 .withIcon(new FontAwesomeModule())
                 .withIcon(new FontEcModule())
                 .withLoaderDelayed(1000)
-                .withApiHost("http://myblog.lnkjdx.com/api/")
+                .withApiHost("http://discuz.lnkjdx.com/api/")
                 .withInterceptor(new DebugInterceptor("test",R.raw.test))
                 .configure();
 

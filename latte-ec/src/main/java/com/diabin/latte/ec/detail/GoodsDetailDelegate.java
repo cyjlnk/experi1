@@ -3,6 +3,7 @@ package com.diabin.latte.ec.detail;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
@@ -12,6 +13,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
+import android.view.SurfaceHolder;
 import android.view.View;
 import android.widget.RelativeLayout;
 
@@ -38,12 +40,18 @@ import com.diabin.latte_ui.animation.BezierUtil;
 import com.diabin.latte_ui.widget.CircleTextView;
 import com.joanzapata.iconify.widget.IconTextView;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
+import io.vov.vitamio.MediaPlayer;
+import io.vov.vitamio.Vitamio;
+import io.vov.vitamio.widget.MediaController;
+import io.vov.vitamio.widget.VideoView;
 
 /**
  * Created by fei on 2017/8/3.
@@ -60,7 +68,7 @@ public class GoodsDetailDelegate extends LatteDelegate implements
     @BindView(R2.id.view_pager)
     ViewPager mViewPager = null;
     @BindView(R2.id.detail_banner)
-    ConvenientBanner<String> mBanner = null;
+    VideoView mBanner = null;
     @BindView(R2.id.collapsing_toolbar_detail)
     CollapsingToolbarLayout mCollapsingToolbarLayout = null;
     @BindView(R2.id.app_bar_detail)
@@ -115,6 +123,7 @@ public class GoodsDetailDelegate extends LatteDelegate implements
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         final Bundle args = getArguments();
         if (args != null) {
             mGoodsId = args.getInt(ARG_GOODS_ID);
@@ -137,6 +146,60 @@ public class GoodsDetailDelegate extends LatteDelegate implements
         initTabLayout();
 
     }
+    private void initVideo(){
+
+//        HashMap<String, String> options = new HashMap<String, String>();
+//        options.put("rtmp_playpath", "fsb");
+//        options.put("rtmp_swfurl", "http://www.cdn-br.com/swf/player.swf");
+//        options.put("rtmp_live", "1");
+//        options.put("rtmp_pageurl", "http://www.cdn-br.com/mastertv/FSB.htm");
+            String   path= "http://love.lnkjdx.com/video/lxy/sbq.mp4";
+//        MediaController mediaPlayer=new MediaController(this.getContext());
+//        mBanner.setVideoChroma(MediaPlayer.VIDEOCHROMA_RGB565);
+//        mBanner.setMediaController(mediaPlayer);
+//        mBanner.setVideoURI(path,options);
+
+      /*  MediaPlayer  mediaPlayer = new MediaPlayer(this.getContext());
+        try {
+            mediaPlayer.setDataSource("http://love.lnkjdx.com/video/lxy/sbq.mp4");
+            mediaPlayer.setDisplay();
+            mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+                @Override
+                public void onPrepared(MediaPlayer mp) {
+                    mediaPlayer.start();
+                }
+            });
+            mediaPlayer.prepareAsync();
+            mediaPlayer.setBufferSize(1024 * 1024 * 2);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }*/
+
+        final MediaController mc = new MediaController(this.getContext());
+        mBanner.setMediaController(mc);
+        //这里设置网络地址，可以是卫视地址，网络主播地址，总结推送地址
+        mBanner.setVideoPath(path);
+        //VideoView是否准备好 的回调方法
+        mBanner.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+            @Override
+            public void onPrepared(final MediaPlayer mp) {
+             mp.pause();
+            }
+        });
+
+
+
+      /*  //VideoView进度条滑动后的回调方法
+        mBanner.setOnSeekCompleteListener(new MediaPlayer.OnSeekCompleteListener() {
+            @Override
+            public void onSeekComplete(MediaPlayer mp) {
+
+            }
+        });*/
+
+    }
+
+
 
     private void initPager(JSONObject data) {
         final PagerAdapter adapter = new TabPagerAdapter(getFragmentManager(), data);
@@ -165,7 +228,7 @@ public class GoodsDetailDelegate extends LatteDelegate implements
                     public void onSuccess(String response) {
                         final JSONObject data =
                                 JSON.parseObject(response).getJSONObject("data");
-                        initBanner(data);
+                        initVideo();
                         initGoodsInfo(data);
                         initPager(data);
                         setShopCartCount(data);
@@ -177,7 +240,7 @@ public class GoodsDetailDelegate extends LatteDelegate implements
 
     private void initGoodsInfo(JSONObject data) {
         final String goodsData = data.toJSONString();
-        loadRootFragment(R.id.frame_goods_info, GoodsInfoDelegate.create(goodsData));
+      //  loadRootFragment(R.id.frame_goods_info, GoodsInfoDelegate.create(goodsData));
     }
 
     private void initBanner(JSONObject data) {
@@ -187,13 +250,13 @@ public class GoodsDetailDelegate extends LatteDelegate implements
         for (int i = 0; i < size; i++) {
             images.add(array.getString(i));
         }
-        mBanner
+        /*mBanner
                 .setPages(new HolderCreator(), images)
                 .setPageIndicator(new int[]{R.drawable.dot_normal, R.drawable.dot_focus})
                 .setPageIndicatorAlign(ConvenientBanner.PageIndicatorAlign.CENTER_HORIZONTAL)
                 .setPageTransformer(new DefaultTransformer())
                 .startTurning(3000)
-                .setCanLoop(true);
+                .setCanLoop(true);*/
     }
 
     @Override
