@@ -3,7 +3,7 @@ package com.diabin.latte.ec.detail;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
-import android.net.Uri;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
@@ -13,15 +13,14 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
-import android.view.SurfaceHolder;
 import android.view.View;
+import android.widget.MediaController;
 import android.widget.RelativeLayout;
+import android.widget.VideoView;
 
-import com.ToxicBakery.viewpager.transforms.DefaultTransformer;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.bigkoo.convenientbanner.ConvenientBanner;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
@@ -29,10 +28,8 @@ import com.daimajia.androidanimations.library.YoYo;
 import com.diabin.latte.delegates.LatteDelegate;
 import com.diabin.latte.ec.R;
 import com.diabin.latte.ec.R2;
-
 import com.diabin.latte.net.RestClient;
 import com.diabin.latte.net.callback.ISuccess;
-import com.diabin.latte.ui.banner.HolderCreator;
 import com.diabin.latte.util.log.LatteLogger;
 import com.diabin.latte.util.toast.ToastUtil;
 import com.diabin.latte_ui.animation.BezierAnimation;
@@ -40,18 +37,12 @@ import com.diabin.latte_ui.animation.BezierUtil;
 import com.diabin.latte_ui.widget.CircleTextView;
 import com.joanzapata.iconify.widget.IconTextView;
 
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
-import io.vov.vitamio.MediaPlayer;
-import io.vov.vitamio.Vitamio;
-import io.vov.vitamio.widget.MediaController;
-import io.vov.vitamio.widget.VideoView;
 
 /**
  * Created by fei on 2017/8/3.
@@ -148,20 +139,83 @@ public class GoodsDetailDelegate extends LatteDelegate implements
 
     }
 
-    private void initVideo() {
-        String path = "http://love.lnkjdx.com/video/lxy/sbq.mp4";
+    private void initVideo(JSONObject data) {
+        String path = data.getString("banners");
         final MediaController mc = new MediaController(this.getContext());
+        mc.setMediaPlayer(new MediaController.MediaPlayerControl() {
+            @Override
+            public void start() {
+                mBanner.start();
+            }
+
+            @Override
+            public void pause() {
+                mBanner.pause();
+            }
+
+            @Override
+            public int getDuration() {
+                return 0;
+            }
+
+            @Override
+            public int getCurrentPosition() {
+                return 0;
+            }
+
+            @Override
+            public void seekTo(int pos) {
+
+            }
+
+            @Override
+            public boolean isPlaying() {
+                return false;
+            }
+
+            @Override
+            public int getBufferPercentage() {
+                return 0;
+            }
+
+            @Override
+            public boolean canPause() {
+                return false;
+            }
+
+            @Override
+            public boolean canSeekBackward() {
+                return false;
+            }
+
+            @Override
+            public boolean canSeekForward() {
+                return false;
+            }
+
+            @Override
+            public int getAudioSessionId() {
+                return 0;
+            }
+        });
         mBanner.setMediaController(mc);
         //这里设置网络地址，可以是卫视地址，网络主播地址，总结推送地址
+        ToastUtil.show(getContext(),path);
         mBanner.setVideoPath(path);
-        //VideoView是否准备好 的回调方法
         mBanner.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+            @Override
+            public void onPrepared(MediaPlayer mp) {
+                mBanner.start();
+            }
+        });
+
+        //VideoView是否准备好 的回调方法
+        /*mBanner.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             @Override
             public void onPrepared(final MediaPlayer mp) {
                 mp.pause();
             }
-        });
-
+        });*/
     }
 
 
@@ -192,7 +246,7 @@ public class GoodsDetailDelegate extends LatteDelegate implements
                     public void onSuccess(String response) {
                         final JSONObject data =
                                 JSON.parseObject(response).getJSONObject("data");
-                        initVideo();
+                        initVideo(data);
                         initGoodsInfo(data);
                         initPager(data);
                         setShopCartCount(data);
