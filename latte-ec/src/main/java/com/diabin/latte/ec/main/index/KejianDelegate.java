@@ -62,7 +62,7 @@ public class KejianDelegate extends BottomItemDelegate {
         super.onLazyInitView(savedInstanceState);
         initRefreshLayout();
         initRecyclerView();
-        mRefreshHandler.firstPage("qianyan.php");
+        mRefreshHandler.firstPage("kejian.php");
     }
 
     @Override

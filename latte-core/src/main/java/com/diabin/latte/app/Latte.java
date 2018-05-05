@@ -1,28 +1,21 @@
 package com.diabin.latte.app;
 
+import android.app.Application;
 import android.content.Context;
 import android.os.Handler;
 
-
 /**
- * Created by fei on 2017/7/30.
+ * Created by 傅令杰 on 2017/3/29
  */
 
 public final class Latte {
 
-public static Configurator init(Context context){
-//getConfigurations().put(ConfigType.APPLICATION_CONTEXT.name(),context.getApplicationContext());
-    Configurator.getInstance().getLatteConfigs().put(ConfigType.APPLICATION_CONTEXT,context.getApplicationContext());
-    return Configurator.getInstance();
-}
-
-//public static HashMap<Object,Object> getConfigurations(){
-//    return Configurator.getInstance().getLatteConfigs();
-//}
-//
-//public static Context getApplication(){
-//    return (Context) getConfigurations().get(ConfigType.APPLICATION_CONTEXT.name());
-//}
+    public static Configurator init(Context context) {
+        Configurator.getInstance()
+                .getLatteConfigs()
+                .put(ConfigKeys.APPLICATION_CONTEXT, context.getApplicationContext());
+        return Configurator.getInstance();
+    }
 
     public static Configurator getConfigurator() {
         return Configurator.getInstance();
@@ -32,12 +25,14 @@ public static Configurator init(Context context){
         return getConfigurator().getConfiguration(key);
     }
 
-    public static Context getApplicationContext() {
-        return getConfiguration(ConfigType.APPLICATION_CONTEXT);
+    public static Application getApplicationContext() {
+        return getConfiguration(ConfigKeys.APPLICATION_CONTEXT);
     }
 
     public static Handler getHandler() {
-        return getConfiguration(ConfigType.HANDLER);
+        return getConfiguration(ConfigKeys.HANDLER);
     }
 
+    public static void test(){
+    }
 }

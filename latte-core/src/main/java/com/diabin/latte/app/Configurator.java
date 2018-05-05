@@ -1,11 +1,15 @@
 package com.diabin.latte.app;
 
 
+import android.app.Application;
 import android.os.Handler;
 
+import com.blankj.utilcode.util.Utils;
 import com.joanzapata.iconify.IconFontDescriptor;
 import com.joanzapata.iconify.Iconify;
-
+import com.orhanobut.logger.Logger;
+import com.orhanobut.logger.AndroidLogAdapter;
+import com.orhanobut.logger.Logger;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -23,8 +27,8 @@ public class Configurator {
     private static final Handler HANDLER = new Handler();
 
     private Configurator(){
-        LATTE_CONFIGS.put(ConfigType.CONFIG_READY,false);
-        LATTE_CONFIGS.put(ConfigType.HANDLER, HANDLER);
+        LATTE_CONFIGS.put(ConfigKeys.CONFIG_READY,false);
+        LATTE_CONFIGS.put(ConfigKeys.HANDLER, HANDLER);
     }
 
     public static Configurator getInstance(){
@@ -41,28 +45,31 @@ public class Configurator {
 
     public final void configure(){
         initIcons();
-        LATTE_CONFIGS.put(ConfigType.CONFIG_READY,true);
+        Logger.addLogAdapter(new AndroidLogAdapter());
+        LATTE_CONFIGS.put(ConfigKeys.CONFIG_READY, true);
+        Utils.init(Latte.getApplicationContext());
+
     }
 
     public final Configurator withApiHost(String host){
-        LATTE_CONFIGS.put(ConfigType.API_HOST,host);
+        LATTE_CONFIGS.put(ConfigKeys.API_HOST,host);
         return this;
     }
 
     public final Configurator withLoaderDelayed(long delayed) {
-        LATTE_CONFIGS.put(ConfigType.LOADER_DELAYED, delayed);
+        LATTE_CONFIGS.put(ConfigKeys.LOADER_DELAYED, delayed);
         return this;
     }
 
     public final Configurator withInterceptor(Interceptor interceptor){
         INTERCEPTORS.add(interceptor);
-        LATTE_CONFIGS.put(ConfigType.INTERCEPTOR,INTERCEPTORS);
+        LATTE_CONFIGS.put(ConfigKeys.INTERCEPTOR,INTERCEPTORS);
         return this;
     }
 
     public final Configurator withInterceptors(ArrayList<Interceptor> interceptors){
         INTERCEPTORS.addAll(interceptors);
-        LATTE_CONFIGS.put(ConfigType.INTERCEPTOR,INTERCEPTORS);
+        LATTE_CONFIGS.put(ConfigKeys.INTERCEPTOR,INTERCEPTORS);
         return this;
     }
 
@@ -81,7 +88,7 @@ public class Configurator {
     }
 
     private void checkConfiguration(){
-        final boolean isReady= (boolean) LATTE_CONFIGS.get(ConfigType.CONFIG_READY);
+        final boolean isReady= (boolean) LATTE_CONFIGS.get(ConfigKeys.CONFIG_READY);
         if(!isReady){
             throw new RuntimeException("Configuration is not ready,call configure");
         }

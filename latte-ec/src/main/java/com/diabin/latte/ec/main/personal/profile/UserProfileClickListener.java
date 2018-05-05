@@ -43,7 +43,7 @@ public class UserProfileClickListener extends SimpleClickListener {
         switch (id) {
             case 1:
                 //开始照相机或选择图片
-               /* CallbackManager.getInstance()
+                CallbackManager.getInstance()
                         .addCallback(CallbackType.ON_CROP, new IGlobalCallback<Uri>() {
                             @Override
                             public void executeCallback(Uri args) {
@@ -52,7 +52,6 @@ public class UserProfileClickListener extends SimpleClickListener {
                                 Glide.with(DELEGATE)
                                         .load(args)
                                         .into(avatar);
-
                                 RestClient.builder()
                                         .url(UploadConfig.UPLOAD_IMG)
                                         .loader(DELEGATE.getContext())
@@ -61,10 +60,10 @@ public class UserProfileClickListener extends SimpleClickListener {
                                             @Override
                                             public void onSuccess(String response) {
                                                 LatteLogger.d("ON_CROP_UPLOAD", response);
-                                                final String path = JSON.parseObject(response).getJSONObject("result")
-                                                        .getString("path");
+                                               /* final String path = JSON.parseObject(response).getJSONObject("result")
+                                                        .getString("path");*/
 
-                                                //通知服务器更新信息
+                                                /*//通知服务器更新信息
                                                 RestClient.builder()
                                                         .url("user_profile.php")
                                                         .params("avatar", path)
@@ -77,7 +76,7 @@ public class UserProfileClickListener extends SimpleClickListener {
                                                             }
                                                         })
                                                         .build()
-                                                        .post();
+                                                        .post();*/
                                             }
                                         })
                                         .build()
@@ -85,7 +84,7 @@ public class UserProfileClickListener extends SimpleClickListener {
                             }
                         });
                 DELEGATE.startCameraWithCheck();
-                break;*/
+                break;
             case 2:
                 final LatteDelegate nameDelegate = bean.getDelegate();
                 DELEGATE.start(nameDelegate);
