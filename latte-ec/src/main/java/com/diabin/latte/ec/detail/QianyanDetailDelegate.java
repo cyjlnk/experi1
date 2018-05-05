@@ -144,7 +144,7 @@ public class QianyanDetailDelegate extends LatteDelegate implements
         WebSettings webSettings = mWebView.getSettings();
         webSettings.setJavaScriptEnabled(true);
         webSettings.setAllowFileAccess(true);
-        webSettings.setBuiltInZoomControls(true);
+        mWebView.loadUrl(url);
         mWebView.setWebViewClient(new WebViewClient(){
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
@@ -152,7 +152,7 @@ public class QianyanDetailDelegate extends LatteDelegate implements
                 return true;
             }
         });
-        mWebView.loadUrl(url);
+
     }
     private void initVideo(){
 
