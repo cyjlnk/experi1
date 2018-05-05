@@ -6,7 +6,6 @@ import com.diabin.latte.app.Latte;
 import com.diabin.latte.ec.database.DatabaseManager;
 import com.diabin.latte.ec.icon.FontEcModule;
 import com.diabin.latte.net.interceptors.DebugInterceptor;
-import com.facebook.stetho.Stetho;
 import com.joanzapata.iconify.fonts.FontAwesomeModule;
 
 import io.vov.vitamio.Vitamio;
@@ -33,6 +32,30 @@ public class ExampleApp extends Application {
 
         // 测试数据库 initStetho();
         DatabaseManager.getInstance().init(this);
+
+       /* //开启极光推送
+        JPushInterface.setDebugMode(true);
+        JPushInterface.init(this);
+
+        CallbackManager.getInstance()
+                .addCallback(CallbackType.TAG_OPEN_PUSH, new IGlobalCallback() {
+                    @Override
+                    public void executeCallback(@Nullable Object args) {
+                        if (JPushInterface.isPushStopped(Latte.getApplicationContext())) {
+                            //开启极光推送
+                            JPushInterface.setDebugMode(true);
+                            JPushInterface.init(Latte.getApplicationContext());
+                        }
+                    }
+                })
+                .addCallback(CallbackType.TAG_STOP_PUSH, new IGlobalCallback() {
+                    @Override
+                    public void executeCallback(@Nullable Object args) {
+                        if (!JPushInterface.isPushStopped(Latte.getApplicationContext())) {
+                            JPushInterface.stopPush(Latte.getApplicationContext());
+                        }
+                    }
+                });*/
     }
 //测试数据库
 //    private void initStetho(){

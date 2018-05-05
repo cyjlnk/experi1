@@ -1,10 +1,7 @@
 package com.diabin.latte.ec.main.personal;
 
-import android.app.LauncherActivity;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -17,15 +14,13 @@ import com.diabin.latte.ec.main.personal.list.ListBean;
 import com.diabin.latte.ec.main.personal.list.ListItemType;
 import com.diabin.latte.ec.main.personal.order.OrderListDelegate;
 import com.diabin.latte.ec.main.personal.profile.UserProfileDelegate;
-
+import com.diabin.latte.ec.main.personal.settings.SettingsDelegate;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-
-import static android.R.id.list;
 
 
 /**
@@ -78,6 +73,7 @@ public class PersonalDelegate extends BottomItemDelegate {
        final ListBean setting =new ListBean.Builder()
                 .setItemType(ListItemType.ITEM_NORMAL)
                 .setId(2)
+               .setDelegate(new SettingsDelegate())
                 .setText("系统设置")
                 .build();
         final  List<ListBean> data=new ArrayList<>();
@@ -89,7 +85,7 @@ public class PersonalDelegate extends BottomItemDelegate {
         rvSettings.setLayoutManager(manager);
         final ListAdapter adapter = new ListAdapter(data);
         rvSettings.setAdapter(adapter);
-       // rvSettings.addOnItemTouchListener(new PersonalClickListener(this));
+       rvSettings.addOnItemTouchListener(new PersonalClickListener(this));
 
     }
 
