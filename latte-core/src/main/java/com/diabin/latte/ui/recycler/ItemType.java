@@ -12,5 +12,6 @@ public class ItemType {
     public static final int BANNER=4;
     public static final int VERTICAL_MEUN_LIST=5;
     public static final int SINGLE_BIG_IMAGE = 6;
+    public static final int  TEXT_UP_IMAGE=7;
 
 }

@@ -94,6 +94,15 @@ public class MultipleRecyclerAdapter extends
                         .into((ImageView) holder.getView(R.id.img_multiple));
                 holder.setText(R.id.tv_multiple,text);
                 break;
+            case ItemType.TEXT_UP_IMAGE:
+                text=entity.getField(MultipleFields.TEXT);
+                imageUrl=entity.getField(MultipleFields.IMAGE_URL);
+                Glide.with(mContext)
+                        .load(imageUrl)
+                        .apply(RECYCLER_OPTIONS)
+                        .into((ImageView) holder.getView(R.id.rv_image1));
+                holder.setText(R.id.rv_text1,text);
+                break;
             case ItemType.BANNER:
                 if(!mIsInitBanner){
                     bannerImages=entity.getField(MultipleFields.BANNERS);

@@ -8,6 +8,7 @@ import com.diabin.latte.delegates.bottom.BottomItemDelegate;
 import com.diabin.latte.delegates.bottom.BottomTabBean;
 import com.diabin.latte.delegates.bottom.ItemBuilder;
 import com.diabin.latte.ec.main.index.IndexDelegate;
+import com.diabin.latte.ec.main.index.QianyanDelegate;
 import com.diabin.latte.ec.main.personal.PersonalDelegate;
 import com.diabin.latte.ec.main.sort.SortDelegate;
 
@@ -23,9 +24,9 @@ public class EcBottomDelegate extends BaseBottomDelegate {
 
         final LinkedHashMap<BottomTabBean, BottomItemDelegate> items=new LinkedHashMap<>();
 
-        items.put(new BottomTabBean("{fa-home}","科研"),new IndexDelegate());
-        items.put(new BottomTabBean("{fa-sort}","教学"),new SortDelegate());
-        items.put(new BottomTabBean("{fa-compass}","管理"),new IndexDelegate());
+        items.put(new BottomTabBean("{fa-home}","首页"),new IndexDelegate());
+        items.put(new BottomTabBean("{fa-sort}","发现"),new QianyanDelegate());
+//        items.put(new BottomTabBean("{fa-compass}","管理"),new IndexDelegate());
         items.put(new BottomTabBean("{fa-user}","我的"),new PersonalDelegate());
 
         return builder.addItems(items).build();

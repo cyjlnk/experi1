@@ -1,6 +1,10 @@
 package com.diabin.latte.ec.detail;
 
+import android.content.Intent;
 import android.support.v7.widget.AppCompatImageView;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -36,12 +40,25 @@ public class RecyclerImageAdapter extends MultipleRecyclerAdapter {
         final int type = holder.getItemViewType();
         switch (type) {
             case ItemType.SINGLE_BIG_IMAGE:
-                final AppCompatImageView imageView = holder.getView(R.id.image_rv_item);
+                final WebView imageView = holder.getView(R.id.image_rv_item);
                 final String url = entity.getField(MultipleFields.IMAGE_URL);
-                Glide.with(mContext)
+                //imageView.setScrollBarStyle(0);
+                WebSettings webSettings = imageView.getSettings();
+                webSettings.setJavaScriptEnabled(true);
+                webSettings.setAllowFileAccess(true);
+                webSettings.setBuiltInZoomControls(true);
+                imageView.setWebViewClient(new WebViewClient(){
+                    @Override
+                    public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                        view.loadUrl(url);
+                        return true;
+                    }
+                });
+                imageView.loadUrl(url);
+            /*    Glide.with(mContext)
                         .load(url)
 
-                        .into(imageView);
+                        .into(imageView);*/
                 break;
             default:
                 break;

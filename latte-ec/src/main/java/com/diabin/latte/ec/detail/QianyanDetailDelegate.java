@@ -3,7 +3,6 @@ package com.diabin.latte.ec.detail;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
@@ -13,15 +12,15 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
-import android.view.SurfaceHolder;
 import android.view.View;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.RelativeLayout;
 
-import com.ToxicBakery.viewpager.transforms.DefaultTransformer;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.bigkoo.convenientbanner.ConvenientBanner;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
@@ -29,10 +28,9 @@ import com.daimajia.androidanimations.library.YoYo;
 import com.diabin.latte.delegates.LatteDelegate;
 import com.diabin.latte.ec.R;
 import com.diabin.latte.ec.R2;
-
 import com.diabin.latte.net.RestClient;
 import com.diabin.latte.net.callback.ISuccess;
-import com.diabin.latte.ui.banner.HolderCreator;
+import com.diabin.latte.ui.recycler.MultipleFields;
 import com.diabin.latte.util.log.LatteLogger;
 import com.diabin.latte.util.toast.ToastUtil;
 import com.diabin.latte_ui.animation.BezierAnimation;
@@ -40,16 +38,13 @@ import com.diabin.latte_ui.animation.BezierUtil;
 import com.diabin.latte_ui.widget.CircleTextView;
 import com.joanzapata.iconify.widget.IconTextView;
 
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
 import io.vov.vitamio.MediaPlayer;
-import io.vov.vitamio.Vitamio;
 import io.vov.vitamio.widget.MediaController;
 import io.vov.vitamio.widget.VideoView;
 
@@ -57,10 +52,11 @@ import io.vov.vitamio.widget.VideoView;
  * Created by fei on 2017/8/3.
  */
 
-public class GoodsDetailDelegate extends LatteDelegate implements
+public class QianyanDetailDelegate extends LatteDelegate implements
         AppBarLayout.OnOffsetChangedListener,
         BezierUtil.AnimationListener {
-
+    @BindView(R2.id.wv_qian_detail)
+    WebView mWebView = null;
     @BindView(R2.id.goods_detail_toolbar)
     Toolbar mToolbar = null;
     @BindView(R2.id.tab_layout)
@@ -113,10 +109,10 @@ public class GoodsDetailDelegate extends LatteDelegate implements
         }
     }
 
-    public static GoodsDetailDelegate create(int goodsId) {
+    public static QianyanDetailDelegate create(int goodsId) {
         final Bundle args = new Bundle();
         args.putInt(ARG_GOODS_ID, goodsId);
-        final GoodsDetailDelegate delegate = new GoodsDetailDelegate();
+        final QianyanDetailDelegate delegate = new QianyanDetailDelegate();
         delegate.setArguments(args);
         return delegate;
     }
@@ -134,7 +130,7 @@ public class GoodsDetailDelegate extends LatteDelegate implements
 
     @Override
     public Object setLayout() {
-        return R.layout.delegate_goods_detail;
+        return R.layout.delegate_qianyan_detail;
     }
 
     @Override
@@ -144,7 +140,19 @@ public class GoodsDetailDelegate extends LatteDelegate implements
         mCircleTextView.setCircleBackground(Color.RED);
         initData();
         initTabLayout();
-
+        final String url = "http://www.phsky.net/item-detail.aspx?NewsID=85742";
+        WebSettings webSettings = mWebView.getSettings();
+        webSettings.setJavaScriptEnabled(true);
+        webSettings.setAllowFileAccess(true);
+        webSettings.setBuiltInZoomControls(true);
+        mWebView.setWebViewClient(new WebViewClient(){
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                view.loadUrl(url);
+                return true;
+            }
+        });
+        mWebView.loadUrl(url);
     }
     private void initVideo(){
 
@@ -271,8 +279,7 @@ public class GoodsDetailDelegate extends LatteDelegate implements
                 .playOn(mIconShopCart);
         RestClient.builder()
                 .url("add_shop_cart_count.php")
-                .success(
-                        new ISuccess() {
+                .success(new ISuccess() {
                     @Override
                     public void onSuccess(String response) {
                         LatteLogger.json("ADD", response);

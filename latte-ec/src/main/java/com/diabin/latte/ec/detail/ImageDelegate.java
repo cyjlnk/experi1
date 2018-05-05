@@ -5,7 +5,9 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.MotionEvent;
 import android.view.View;
+import android.webkit.WebView;
 
 import com.diabin.latte.ec.R;
 import com.diabin.latte.delegates.LatteDelegate;
@@ -52,8 +54,15 @@ public class ImageDelegate extends LatteDelegate {
                             .build();
                     entities.add(entity);
                 }
+
                 final RecyclerImageAdapter adapter = new RecyclerImageAdapter(entities);
                 mRecyclerView.setAdapter(adapter);
+                mRecyclerView.setOnTouchListener(new View.OnTouchListener() {
+                    @Override
+                    public boolean onTouch(View v, MotionEvent event) {
+                        return true;
+                    }
+                });
             }
         }
     }
@@ -70,7 +79,7 @@ public class ImageDelegate extends LatteDelegate {
     public void onBindView(@Nullable Bundle savedInstanceState, @NonNull View rootView) {
 //        mRecyclerView = find(R.id.rv_image_container);
         final LinearLayoutManager manager = new LinearLayoutManager(getContext());
-        mRecyclerView.setLayoutManager(manager);
+          mRecyclerView.setLayoutManager(manager);
         initImages();
     }
 }
