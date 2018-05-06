@@ -11,7 +11,8 @@
         android:layout_height="50dp"
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
-        android:layout_marginLeft="20dp" />
+        android:layout_marginLeft="20dp"
+        android:src="@mipmap/avatar" />
 
     <com.joanzapata.iconify.widget.IconTextView
         android:id="@+id/tv_arrow_img_text"

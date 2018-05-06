@@ -119,7 +119,7 @@ public class GoodsDetailDelegate extends LatteDelegate implements
         final Bundle args = getArguments();
         if (args != null) {
             mGoodsId = args.getInt(ARG_GOODS_ID);
-            ToastUtil.show(getContext(), String.valueOf(mGoodsId));
+//            ToastUtil.show(getContext(), String.valueOf(mGoodsId));
 
         }
     }
@@ -135,7 +135,7 @@ public class GoodsDetailDelegate extends LatteDelegate implements
         mAppBar.addOnOffsetChangedListener(this);
         mCircleTextView.setCircleBackground(Color.RED);
         initData();
-        initTabLayout();
+//        initTabLayout();
 
     }
 
@@ -200,7 +200,7 @@ public class GoodsDetailDelegate extends LatteDelegate implements
         });
         mBanner.setMediaController(mc);
         //这里设置网络地址，可以是卫视地址，网络主播地址，总结推送地址
-        ToastUtil.show(getContext(),path);
+        ToastUtil.show(getContext(),"视频加载中");
         mBanner.setVideoPath(path);
         mBanner.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             @Override
@@ -247,9 +247,9 @@ public class GoodsDetailDelegate extends LatteDelegate implements
                         final JSONObject data =
                                 JSON.parseObject(response).getJSONObject("data");
                         initVideo(data);
-                        initGoodsInfo(data);
-                        initPager(data);
-                        setShopCartCount(data);
+//                        initGoodsInfo(data);
+//                        initPager(data);
+//                        setShopCartCount(data);
                     }
                 })
                 .build()

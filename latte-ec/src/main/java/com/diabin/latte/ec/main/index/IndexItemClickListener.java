@@ -17,6 +17,7 @@ public class IndexItemClickListener extends SimpleClickListener {
 
     private final LatteDelegate DELEGATE;
 
+
     public IndexItemClickListener(LatteDelegate delegate) {
         this.DELEGATE = delegate;
     }
@@ -30,8 +31,15 @@ public class IndexItemClickListener extends SimpleClickListener {
 
         final MultipleItemEntity entity = (MultipleItemEntity) baseQuickAdapter.getData().get(position);
         final int goodsId = entity.getField(MultipleFields.ID);
-        final GoodsDetailDelegate delegate = GoodsDetailDelegate.create(goodsId);
-        DELEGATE.start(delegate);
+        if (goodsId==2 || goodsId==3 || goodsId==4 || goodsId==5 ){
+            final GoodsDetailDelegate delegate = GoodsDetailDelegate.create(goodsId);
+            DELEGATE.start(delegate);
+        }else if (goodsId==6){
+
+        }else if (goodsId==7 || goodsId==8){
+//            final QianyanDetailDelegate delegate = QianyanDetailDelegate.create(goodsId);
+//            DELEGATE.start(delegate);
+        }
     }
 
     @Override

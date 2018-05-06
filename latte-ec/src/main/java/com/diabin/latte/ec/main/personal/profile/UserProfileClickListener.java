@@ -7,15 +7,12 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.alibaba.fastjson.JSON;
 import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.SimpleClickListener;
-import com.diabin.latte.ec.R;
 import com.diabin.latte.delegates.LatteDelegate;
+import com.diabin.latte.ec.R;
 import com.diabin.latte.ec.main.personal.list.ListBean;
-import com.diabin.latte.net.RestClient;
-import com.diabin.latte.net.callback.ISuccess;
 import com.diabin.latte.util.callback.CallbackManager;
 import com.diabin.latte.util.callback.CallbackType;
 import com.diabin.latte.util.callback.IGlobalCallback;
@@ -52,35 +49,36 @@ public class UserProfileClickListener extends SimpleClickListener {
                                 Glide.with(DELEGATE)
                                         .load(args)
                                         .into(avatar);
-                                RestClient.builder()
-                                        .url(UploadConfig.UPLOAD_IMG)
-                                        .loader(DELEGATE.getContext())
-                                        .file(args.getPath())
-                                        .success(new ISuccess() {
-                                            @Override
-                                            public void onSuccess(String response) {
-                                                LatteLogger.d("ON_CROP_UPLOAD", response);
-                                               /* final String path = JSON.parseObject(response).getJSONObject("result")
-                                                        .getString("path");*/
 
-                                                /*//通知服务器更新信息
-                                                RestClient.builder()
-                                                        .url("user_profile.php")
-                                                        .params("avatar", path)
-                                                        .loader(DELEGATE.getContext())
-                                                        .success(new ISuccess() {
-                                                            @Override
-                                                            public void onSuccess(String response) {
-                                                                //获取更新后的用户信息，然后更新本地数据库
-                                                                //没有本地数据的APP，每次打开APP都请求API，获取信息
-                                                            }
-                                                        })
-                                                        .build()
-                                                        .post();*/
-                                            }
-                                        })
-                                        .build()
-                                        .upload();
+//                                RestClient.builder()
+//                                        .url(UploadConfig.UPLOAD_IMG)
+//                                        .loader(DELEGATE.getContext())
+//                                        .file(args.getPath())
+//                                        .success(new ISuccess() {
+//                                            @Override
+//                                            public void onSuccess(String response) {
+//                                                LatteLogger.d("ON_CROP_UPLOAD", response);
+//                                                final String path = JSON.parseObject(response).getJSONObject("result")
+//                                                        .getString("path");
+//
+//                                                /*//通知服务器更新信息
+//                                                RestClient.builder()
+//                                                        .url("user_profile.php")
+//                                                        .params("avatar", path)
+//                                                        .loader(DELEGATE.getContext())
+//                                                        .success(new ISuccess() {
+//                                                            @Override
+//                                                            public void onSuccess(String response) {
+//                                                                //获取更新后的用户信息，然后更新本地数据库
+//                                                                //没有本地数据的APP，每次打开APP都请求API，获取信息
+//                                                            }
+//                                                        })
+//                                                        .build()
+//                                                        .post();*/
+//                                            }
+//                                        })
+//                                        .build()
+//                                        .upload();
                             }
                         });
                 DELEGATE.startCameraWithCheck();

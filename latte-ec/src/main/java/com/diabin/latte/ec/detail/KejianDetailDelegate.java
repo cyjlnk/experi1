@@ -19,7 +19,6 @@ import android.webkit.WebViewClient;
 import android.widget.RelativeLayout;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -31,14 +30,10 @@ import com.diabin.latte.ec.R2;
 import com.diabin.latte.net.RestClient;
 import com.diabin.latte.net.callback.ISuccess;
 import com.diabin.latte.util.log.LatteLogger;
-import com.diabin.latte.util.toast.ToastUtil;
 import com.diabin.latte_ui.animation.BezierAnimation;
 import com.diabin.latte_ui.animation.BezierUtil;
 import com.diabin.latte_ui.widget.CircleTextView;
 import com.joanzapata.iconify.widget.IconTextView;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -123,7 +118,7 @@ public class KejianDetailDelegate extends LatteDelegate implements
         final Bundle args = getArguments();
         if (args != null) {
             mGoodsId = args.getInt(ARG_GOODS_ID);
-            ToastUtil.show(getContext(), String.valueOf(mGoodsId));
+//            ToastUtil.show(getContext(), String.valueOf(mGoodsId));
 
         }
     }
